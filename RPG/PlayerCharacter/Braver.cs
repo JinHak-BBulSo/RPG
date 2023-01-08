@@ -8,77 +8,89 @@ namespace RPG.PlayerCharacter
 {
     internal class Braver : Character
     {
+        int blessingCount = 0;
+
         public Braver()
         {
             this.hp = 200;
             this.mp = 200;
             this.damage = 15;
             this.jobName = "용사";
-        }
-        public override void ActionSelect(Character[] monsters)
-        {
-            bool actionSelctComplete = false;
-            while (!actionSelctComplete)
+            this.actionConsumeMP = new int[2,3]
             {
-                UI.Clear();
-                int pickNumber = 0;
-                ActionList.PrintActionList();
-                pickNumber = UI.SelectPointer(4);
-                UI.Clear();
-                switch (pickNumber)
-                {
-                    case 1:
-                        ActionList.PrintAttackList(jobName);
-                        pickNumber = UI.SelectPointer(4);
-                        if (pickNumber < 3)
-                        {
-                            selectNumber = pickNumber;
-                            selectAction = "Attack";
-                            actionSelctComplete = true;
-                        }
-                        break;
-                    case 2:
-                        ActionList.PrintSkillList(jobName);
-                        pickNumber = UI.SelectPointer(4);
-                        if (pickNumber < 3)
-                        {
-                            selectNumber = pickNumber;
-                            selectAction = "Skill";
-                            actionSelctComplete = true;
-                        }
-                        break;
-                    case 3:
-                        continue;
-                    case 4:
-                        continue;
-                }
-            }
-            this.turnFinish = true;
-            ActionStart(selectNumber, selectAction, monsters);
-            /*Console.SetCursorPosition(35, 27);
-            Console.Write("                     ");*/
+                { 0, 5, 9 },
+                { 20, 30, 50 }
+            };
         }
 
-        public override void ActionStart(int number, string action, Character[] monsters)
+        public override void ActionStart(int number, string action, int target, Character[] monsters)
         {
             Action act = new Action();
-            
+            int hitDamage = 0;
             switch (action)
             {
-                case "Attack":
-                    if(number == 2)
+                case "ATTACK":
+                    if(number == 1)
                     {
+                        hitDamage = damage;
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("용사의 슬래쉬 공격 : ");
+                        Console.Write("용사의 수직베기 : {0}의 피해를 입혔다", hitDamage);
+                    }
+                    else if(number == 2)
+                    {
+                        hitDamage = (int)(damage * 1.5f);
+                        Console.SetCursorPosition(35, 27);
+                        mp -= actionConsumeMP[0, number - 1];
+                        Console.Write("용사의 슬래쉬 : {0}의 피해를 입혔다", hitDamage);
                         Console.ForegroundColor = ConsoleColor.Red;
                         act.Slash();
                         Console.ForegroundColor = ConsoleColor.White;
                     }
+                    else
+                    {
+                        hitDamage = (int)(damage * 2);
+                        mp -= actionConsumeMP[0, number - 2];
+                        Console.SetCursorPosition(35, 27);
+                        Console.Write("용사의 더블 슬래쉬 : {0}의 피해를 입혔다", hitDamage);
+                    }
                     break;
-                case "Skill":
+                case "SKILL":
+                    if (number == 1)
+                    {
+                        mp -= actionConsumeMP[1, number - 1];
+                        Console.SetCursorPosition(35, 27);
+                        Console.Write("영광의 축복 : 2턴 동안 공격력이 1.5배가 된다.");
+                        blessingCount = 3;
+                        damage *= 2;
+                    }
+                    else if (number == 2)
+                    {
+                        hitDamage = (int)(damage * 3.5f);
+                        mp -= actionConsumeMP[1, number - 1];
+                        Console.SetCursorPosition(35, 27);
+                        Console.Write("성검 : 엑스칼리버 {0}의 피해를 입혔다", hitDamage);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        act.Slash();
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        hitDamage = (int)(damage * 5.5f);
+                        mp -= actionConsumeMP[1, number - 2];
+                        Console.SetCursorPosition(35, 27);
+                        Console.Write("최후의 심판 {0}의 피해를 입혔다", hitDamage);
+                    }
                     break;
             }
-            Console.SetCursorPosition(0, 30);
+            if (blessingCount > 0)
+            {
+                blessingCount--;
+                if (blessingCount == 0) damage /= 2;
+            }
+            if(hitDamage != 0)
+            {
+                monsters[target - 1].HitDamage(hitDamage);
+            }
         }
     }
 }

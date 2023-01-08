@@ -68,7 +68,6 @@ namespace RPG
                         y++;
                         Task.Delay(10).Wait();
                     }
-
                 }
             }
         }

@@ -102,11 +102,11 @@ namespace RPG
                 switch (cki.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        y -= 4;
+                        y -= 3;
                         selectNumber--;
                         break;
                     case ConsoleKey.DownArrow:
-                        y += 4;
+                        y += 3;
                         selectNumber++;
                         break;
                     case ConsoleKey.Spacebar:
@@ -122,19 +122,35 @@ namespace RPG
                     Console.Write("☞");
                     nowPointerY = y;
                 }
+                else if (selectNumber <= 0)
+                {
+                    y += 3;
+                    selectNumber = 1;
+                }
+                else
+                {
+                    y -= 3;
+                    selectNumber = selectCount;
+                }
             } // loop : 행동 선택
 
             return selectNumber;
+        }
+
+        static public void TextClear()
+        {
+            Console.SetCursorPosition(35, 27);
+            Console.Write("                                                    ");
         }
 
         static public void Clear()
         {
             Console.SetCursorPosition(40, 8);
 
-            for (int i = 8; i <= 28; i += 4)
+            for (int i = 8; i <= 28; i += 3)
             {
                 Console.SetCursorPosition(40, i);
-                Console.Write("                            ");
+                Console.Write("                                                ");
             }
         }
 
@@ -144,30 +160,79 @@ namespace RPG
             Console.SetCursorPosition(6, 6);
             Console.Write("용사(전열)");
             Console.SetCursorPosition(2, 8);
-            Console.Write("HP : {0}, MP : {1}", characters[0].Hp, characters[0].Mp);
+            Console.Write("HP {0}   MP {1}  ", characters[0].Hp, characters[0].Mp);
 
             //팔라딘
             Console.SetCursorPosition(5, 12);
             Console.Write("팔라딘(전열)");
             Console.SetCursorPosition(2, 14);
-            Console.Write("HP : {0}, MP : {1}", characters[1].Hp, characters[1].Mp);
+            Console.Write("HP {0}   MP {1}  ", characters[1].Hp, characters[1].Mp);
 
             //현자
             Console.SetCursorPosition(6, 18);
             Console.Write("현자(후열)");
             Console.SetCursorPosition(2, 20);
-            Console.Write("HP : {0}, MP : {1}", characters[2].Hp, characters[2].Mp);
+            Console.Write("HP {0}   MP {1}  ", characters[2].Hp, characters[2].Mp);
 
             //성녀
             Console.SetCursorPosition(6, 24);
             Console.Write("성녀(후열)");
             Console.SetCursorPosition(2, 26);
-            Console.Write("HP : {0}, MP : {1}", characters[3].Hp, characters[3].Mp);
+            Console.Write("HP {0}   MP {1}  ", characters[3].Hp, characters[3].Mp);
+        }
+
+        static public void MonsterSetting(Character[] monsters)
+        {
+            //용사
+            Console.SetCursorPosition(102, 6);
+            Console.Write("{0}", monsters[0].JobName);
+            Console.SetCursorPosition(102, 8);
+            Console.Write("HP {0}   MP {1}  ", monsters[0].Hp, monsters[0].Mp);
+
+            //팔라딘
+            Console.SetCursorPosition(102, 12);
+            Console.Write("{0}", monsters[1].JobName);
+            Console.SetCursorPosition(102, 14);
+            Console.Write("HP {0}   MP {1}  ", monsters[1].Hp, monsters[1].Mp);
+
+            //현자
+            Console.SetCursorPosition(102, 18);
+            Console.Write("{0}", monsters[2].JobName);
+            Console.SetCursorPosition(102, 20);
+            Console.Write("HP {0}   MP {1}  ", monsters[2].Hp, monsters[2].Mp);
+
+            //성녀
+            Console.SetCursorPosition(102, 24);
+            Console.Write("{0}", monsters[3].JobName);
+            Console.SetCursorPosition(102, 26);
+            Console.Write("HP {0}   MP {1}  ", monsters[3].Hp, monsters[3].Mp);
+        }
+        static public void PrintCharacterList()
+        {
+            Clear();
+            Console.SetCursorPosition(44, 8);
+            Console.Write("1. 용사");
+            Console.SetCursorPosition(44, 11);
+            Console.Write("2. 팔라딘");
+            Console.SetCursorPosition(44, 14);
+            Console.Write("3. 현자");
+            Console.SetCursorPosition(44, 17);
+            Console.Write("4. 성녀");
         }
         
-        static public void CharacterSelect()
+        static public void PrintMonsterList(Character[] monsters)
         {
-
+            Clear();
+            Console.SetCursorPosition(44, 8);
+            Console.Write("1. {0}", monsters[0].JobName);
+            Console.SetCursorPosition(44, 11);
+            Console.Write("2. {0}", monsters[1].JobName);
+            Console.SetCursorPosition(44, 14);
+            Console.Write("3. {0}", monsters[2].JobName);
+            Console.SetCursorPosition(44, 17);
+            Console.Write("4. {0}", monsters[3].JobName);
+            Console.SetCursorPosition(44, 20);
+            Console.Write("5. 뒤로");
         }
     }
 }
