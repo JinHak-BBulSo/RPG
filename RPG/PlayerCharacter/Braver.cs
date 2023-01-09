@@ -6,16 +6,22 @@ using System.Threading.Tasks;
 
 namespace RPG.PlayerCharacter
 {
-    internal class Braver : Character
+    internal class Braver : Player
     {
         int blessingCount = 0;
+        int blessingOverlap = 0;
+        int originDamage;
 
         public Braver()
         {
-            this.hp = 200;
+            this.hp = 400;
+            this.maxHP = hp;
             this.mp = 200;
+            this.maxMP = mp;
+            this.def = 15;
             this.damage = 15;
             this.jobName = "용사";
+            this.originDamage = this.damage;
             this.actionConsumeMP = new int[2,3]
             {
                 { 0, 5, 9 },
@@ -26,6 +32,7 @@ namespace RPG.PlayerCharacter
         public override void ActionStart(int number, string action, int target, Character[] monsters)
         {
             Action act = new Action();
+            UI.TextClear();
             int hitDamage = 0;
             switch (action)
             {
@@ -49,7 +56,7 @@ namespace RPG.PlayerCharacter
                     else
                     {
                         hitDamage = (int)(damage * 2);
-                        mp -= actionConsumeMP[0, number - 2];
+                        mp -= actionConsumeMP[0, number - 1];
                         Console.SetCursorPosition(35, 27);
                         Console.Write("용사의 더블 슬래쉬 : {0}의 피해를 입혔다", hitDamage);
                     }
@@ -58,10 +65,11 @@ namespace RPG.PlayerCharacter
                     if (number == 1)
                     {
                         mp -= actionConsumeMP[1, number - 1];
+                        blessingOverlap++;
                         Console.SetCursorPosition(35, 27);
                         Console.Write("영광의 축복 : 2턴 동안 공격력이 1.5배가 된다.");
                         blessingCount = 3;
-                        damage *= 2;
+                        this.damage = (int)(damage * 1.5f);
                     }
                     else if (number == 2)
                     {
@@ -76,7 +84,7 @@ namespace RPG.PlayerCharacter
                     else
                     {
                         hitDamage = (int)(damage * 5.5f);
-                        mp -= actionConsumeMP[1, number - 2];
+                        mp -= actionConsumeMP[1, number - 1];
                         Console.SetCursorPosition(35, 27);
                         Console.Write("최후의 심판 {0}의 피해를 입혔다", hitDamage);
                     }
@@ -84,8 +92,17 @@ namespace RPG.PlayerCharacter
             }
             if (blessingCount > 0)
             {
-                blessingCount--;
-                if (blessingCount == 0) damage /= 2;
+                if (blessingOverlap == 2)
+                {
+                    blessingCount--;
+                    damage /= 2;
+                }
+                else
+                {
+                    blessingCount--;
+                    if (blessingCount == 0) 
+                        damage = originDamage;
+                }
             }
             if(hitDamage != 0)
             {

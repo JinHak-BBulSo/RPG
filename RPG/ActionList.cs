@@ -23,6 +23,8 @@ namespace RPG
             Console.Write("4. 후퇴");
             Console.SetCursorPosition(44, 20);
             Console.Write("5. 캐릭터 재선택");
+            Console.SetCursorPosition(44, 23);
+            Console.Write("6. 턴종료");
         }
         static public void PrintAttackList(string name)
         {
@@ -41,7 +43,7 @@ namespace RPG
                     break;
                 case "팔라딘":
                     Console.SetCursorPosition(44, 8);
-                    Console.Write("1. 횡베기");
+                    Console.Write("1. 휘두르기");
                     Console.SetCursorPosition(44, 11);
                     Console.Write("2. 십자 베기");
                     Console.SetCursorPosition(44, 14);

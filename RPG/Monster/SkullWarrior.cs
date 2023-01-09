@@ -11,20 +11,24 @@ namespace RPG.Monster
     {
         public SkullWarrior()
         {
-            this.hp = 130;
-            this.mp = 30;
-            this.damage = 10;
+            this.hp = 530;
+            this.mp = 100;
+            this.damage = 40;
             this.jobName = "스켈레톤 전사";
         }
-        public override void ActionSelect(Character[] bravers)
+        public override void ActionSelect(Player[] bravers)
         {
+            UI.ControlChaTextClear();
+            UI.TextClear();
+            Console.SetCursorPosition(22, 5);
+            Console.Write("행동중인 몬스터 : " + this.jobName);
             bool actionSelctComplete = false;
             while (!actionSelctComplete)
             {
                 Random random = new Random();
                 UI.Clear();
                 int pickNumber = 0;
-                if (this.mp >= 15)
+                if (this.mp >= 20)
                     pickNumber = random.Next(1, 2 + 1);
                 else
                     pickNumber = 1;
@@ -38,7 +42,7 @@ namespace RPG.Monster
                         if (pickNumber < 3)
                         {
                             selectNumber = pickNumber;
-                            selectAction = "Attack";
+                            selectAction = "ATTACK";
                             actionSelctComplete = true;
                         }
                         break;
@@ -47,48 +51,57 @@ namespace RPG.Monster
                         if (pickNumber < 3)
                         {
                             selectNumber = pickNumber;
-                            selectAction = "Skill";
+                            selectAction = "SKILL";
                             actionSelctComplete = true;
                         }
                         break;
-                    case 3:
-                        continue;
-                    case 4:
-                        continue;
                 }
             }
             this.turnFinish = true;
             ActionStart(selectNumber, selectAction, bravers);
         }
 
-        public override void ActionStart(int number, string action, Character[] bravers)
+        public override void ActionStart(int number, string action, Player[] bravers)
         {
-            Action act = new Action();
-            int target = TargetSelect(bravers);
+            int target = 0;
+            Action act = new Action(); // 나중에 구현
+            if (!bravers[1].IsDie && bravers[1].IsSeraph)
+            {
+                target = 2;
+            }
+            else
+                target = TargetSelect(bravers);
+            int hitDamage = 0;
+            UI.TextClear();
 
             switch (action)
             {
-                case "Attack":
+                case "ATTACK":
                     if (number == 1)
                     {
+                        hitDamage = this.damage - bravers[target - 1].Def;
+                        bravers[target - 1].HitDamage(hitDamage);
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 궁수의 화살 공격 : {0}", this.Damage);
+                        Console.Write("스켈레톤 전사의 베기 : {0}의 피해를 입혔다", hitDamage);
                     }
                     if (number == 2)
                     {
-
+                        hitDamage = (int)(this.damage * 1.5f) - bravers[target - 1].Def;
+                        bravers[target - 1].HitDamage(hitDamage);
                         this.mp -= 5;
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 궁수의 차지샷 : ", (int)(this.Damage * 1.5f));
+                        Console.Write("스켈레톤 전사의 연속베기 : {0}의 피해를 입혔다", hitDamage);
                     }
                     break;
-                case "Skill":
-                    this.mp -= 15;
+                case "SKILL":
+                    hitDamage = this.damage * 2 - bravers[target - 1].Def;
+                    bravers[target - 1].HitDamage(hitDamage);
+                    this.mp -= 20;
                     Console.SetCursorPosition(35, 27);
-                    Console.Write("스켈레톤 궁수의 트리플 에로우 : {0}", this.Damage * 3);
+                    Console.Write("스켈레톤 전사의 파워슬래쉬 : {0}의 피해를 입혔다", hitDamage);
                     break;
             }
-            Console.SetCursorPosition(0, 30);
+            Task.Delay(2000).Wait();
         }
     }
 }

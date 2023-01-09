@@ -8,7 +8,7 @@ namespace RPG.PlayerCharacter
 {
     internal class Character
     {
-        enum Action_
+        public enum Action_
         {
             ATTACK, SKILL
         }
@@ -32,6 +32,7 @@ namespace RPG.PlayerCharacter
             get { return hp; }
             private set { hp = value; }
         }
+        protected int maxHP;
 
         protected int mp;
         public int Mp
@@ -39,6 +40,7 @@ namespace RPG.PlayerCharacter
             get { return mp; }
             private set { mp = value; }
         }
+        protected int maxMP;
         protected int[,] actionConsumeMP;
 
         protected int damage;
@@ -47,7 +49,15 @@ namespace RPG.PlayerCharacter
             get { return damage; }
             private set { damage = value; }
         }
-        
+
+        protected int def;
+        protected int originDef;
+        public int Def
+        {
+            get { return def; }
+            private set { def = value; }
+        }
+
         // 직업 or 몬스터 명
         protected string jobName;
         public string JobName
@@ -67,145 +77,53 @@ namespace RPG.PlayerCharacter
 
         // 몬스터인가?
         protected bool isMonster = false;
+        protected bool isFireWeak = false;
+        public bool IsFireWeak
+        {
+            get { return isFireWeak; }
+            private set { isFireWeak = value; }
+        }
+        protected bool isWindWeak = false;
+        public bool IsWindWeak
+        {
+            get { return isWindWeak; }
+            private set { isWindWeak = value; }
+        }
+        protected bool isIceWeak = false;
+        public bool IsIceWeak
+        {
+            get { return isIceWeak; }
+            private set { IsIceWeak = value; }
+        }     
 
         // 몬스터
-        public virtual void ActionSelect(Character[] bravers)
+        public virtual void ActionSelect(Player[] bravers)
         {
 
         }
 
         // 플레이어 캐릭터
-        public virtual void ActionSelect(Character[] bravers, Character[] monsters)
-        {
-            //플레이어 캐릭터
-            int pickNumber = 0;
-            int targetNumber = 0;
-            int actionSelectNumber = 0;
-            int selectCharacterNumber = 0;
-            bool actionSelctComplete = false;
-            int consumeMP = 0;
-
-            while (!actionSelctComplete)
-            {
-                // 행동할 캐릭터 선택
-                if (selectCharacterNumber == 0)
-                {
-                    UI.PrintCharacterList();
-                    selectCharacterNumber = UI.SelectPointer(4);
-                    if (bravers[selectCharacterNumber - 1].TurnFinish)
-                    {
-                        UI.TextClear();
-                        Console.SetCursorPosition(35, 27);
-                        Console.Write("{0}은 이미 행동을 마쳤습니다.", bravers[selectCharacterNumber - 1].jobName);
-                        selectCharacterNumber = 0;
-                        continue;
-                    }
-                    else if(bravers[selectCharacterNumber - 1].IsDie)
-                    {
-                        UI.TextClear();
-                        Console.SetCursorPosition(35, 27);
-                        Console.Write("{0}은 현재 전투 불능입니다.", bravers[selectCharacterNumber - 1].jobName);
-                        selectCharacterNumber = 0;
-                        continue;
-                    }
-                }
-                
-                // 행동할 동작 선택
-                if (actionSelectNumber == 0)
-                {
-                    ActionList.PrintActionList();
-                    actionSelectNumber = UI.SelectPointer(5);
-                }
-
-                // 캐릭터 재선택을 선택한 경우 리셋
-                if (actionSelectNumber == 5)
-                {
-                    actionSelectNumber = 0;
-                    selectCharacterNumber = 0;
-                    continue;
-                }
-
-                // 동작의 상세 선택
-                if (targetNumber == 0)
-                {
-                    switch (actionSelectNumber)
-                    {
-                        case 1:
-                            ActionList.PrintAttackList(bravers[selectCharacterNumber - 1].jobName);
-                            pickNumber = UI.SelectPointer(4);
-                            if (pickNumber < 4)
-                            {
-                                selectNumber = pickNumber;
-                                selectAction = "ATTACK";
-                            }
-                            else
-                            {
-                                actionSelectNumber = 0;
-                                continue;
-                            } // 뒤로를 선택한 경우
-                            break;
-                        case 2:
-                            ActionList.PrintSkillList(bravers[selectCharacterNumber - 1].jobName);
-                            pickNumber = UI.SelectPointer(4);
-                            if (pickNumber < 4)
-                            {
-                                selectNumber = pickNumber;
-                                selectAction = "SKILL";
-                            }
-                            else
-                            {
-                                actionSelectNumber = 0;
-                                continue;
-                            } // 동작은 선택한 경우
-                            break;
-                        case 3:
-                            actionSelectNumber = 0;
-                            continue;
-                        case 4:
-                            actionSelectNumber = 0;
-                            continue;
-                    }
-                }
-                consumeMP = actionConsumeMP[(int)Action_.ATTACK, pickNumber - 1];
-                // 공격할 대상 선택
-                UI.PrintMonsterList(monsters);
-                targetNumber = UI.SelectPointer(5);
-                if (targetNumber == 5 || monsters[targetNumber - 1].isDie)
-                {
-                    if (targetNumber == 5)
-                    {
-                        targetNumber = 0;
-                        continue;
-                    }
-                    else
-                    {
-                        UI.TextClear();
-                        Console.SetCursorPosition(35, 27);
-                        Console.Write("선택한 몬스터 {0}은 이미 사망했습니다.", monsters[targetNumber - 1].jobName);
-                        continue;
-                    }
-                }
-                if(this.mp - consumeMP < 0)
-                {
-                    Console.WriteLine("MP가 부족해 사용할 수 없습니다.");
-                    pickNumber = 0;
-                    continue;
-                }
-                actionSelctComplete = true;
-            }
-            this.turnFinish = true;
-            ActionStart(selectNumber, selectAction, targetNumber, monsters);
-        }
-
-        // 스킬의 종류가 전부 다르기에 오버라이딩 해서 구현
-        // 몬스터용
-        public virtual void ActionStart(int number, string action, Character[] characters)
+        public virtual void ActionSelect(Player[] bravers, Character[] monsters, int selectCharacterNumber, Inventory inventory)
         {
             /* override using */
         }
 
-        // 플레이어용
+        // 스킬의 종류가 전부 다르기에 오버라이딩 해서 구현
+
+        // 몬스터용
+        public virtual void ActionStart(int number, string action, Player[] bravers)
+        {
+            /* override using */
+        }
+
+        // 플레이어 용사, 현자 사용
         public virtual void ActionStart(int number, string action, int target, Character[] characters)
+        {
+            /* override using */
+        }
+
+        // 플레이어 팔라딘, 성녀 사용
+        public virtual void ActionStart(int number, string action, int target, Player[] bravers, Character[] monsters)
         {
             /* override using */
         }
@@ -217,17 +135,25 @@ namespace RPG.PlayerCharacter
             
             while (true)
             {
-                targetNumber = random.Next(1, 4 + 1);
+                if (random.Next(1, 100 + 1) > 70)
+                    targetNumber = random.Next(3, 4 + 1); // 후열 공격
+                else targetNumber = random.Next(1, 2 + 1); // 전열 공격
+                
                 if (characters[targetNumber - 1].isDie) continue;
                 else return targetNumber;
             }
         }
-
+        // 턴종료
+        public void TurnOver()
+        {
+            this.turnFinish = true;
+        }
+        // 턴리셋 -> 새로운턴의 시작
         public void TurnReset()
         {
             this.turnFinish = false;
         }
-
+        // 데미지 적용
         public void HitDamage(int damage)
         {
             this.hp -= damage;
@@ -239,10 +165,6 @@ namespace RPG.PlayerCharacter
                 this.isDie = true;
             }
         }
-
-        public void Heal(int heal)
-        {
-            this.hp += heal;
-        }
+        
     }
 }

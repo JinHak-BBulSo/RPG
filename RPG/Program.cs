@@ -9,26 +9,21 @@ namespace RPG
         static void Main(string[] args)
         {   
             UI.SetUI();
+            UI.StartIntro();
+            Task.Delay(3000).Wait();
+            UI.Clear();
             Braver braver = new Braver();
             Paladin paladin = new Paladin();
             Sage sage = new Sage();
             Saint saint = new Saint();
+            Inventory inventory = new Inventory();
 
             Braver braver2 = new Braver();
             Braver braver3 = new Braver();
             Braver braver4 = new Braver();
-            Character[] bravers = new Character[4] { braver, braver2, braver3, braver4 };
+            Player[] bravers = new Player[4] { braver, paladin, sage, saint };
 
-            SkullArchor skull = new SkullArchor();
-            SkullArchor skull2 = new SkullArchor();
-            SkullArchor skull3 = new SkullArchor();
-            SkullArchor skull4 = new SkullArchor();
-            Character[] monsters = new Character[4] { skull, skull2, skull3, skull4 };
-
-            UI.CharacterSetting(bravers);
-            UI.MonsterSetting(monsters);
-
-            Battle.SampleBattle(bravers, monsters);
+            Stage.Stage1Start(bravers, inventory);
         }
     }
 }
