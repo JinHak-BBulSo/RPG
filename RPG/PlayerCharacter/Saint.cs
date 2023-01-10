@@ -10,6 +10,7 @@ namespace RPG.PlayerCharacter
     {
         public Saint()
         {
+            this.isMonster = false;
             this.heal = 30;
             this.hp = 300;
             this.maxHP = hp;
@@ -17,6 +18,7 @@ namespace RPG.PlayerCharacter
             this.maxMP = mp;
             this.def = 10;
             this.damage = 3;
+            this.originDamage = this.damage;
             this.jobName = "성녀";
             this.actionConsumeMP = new int[2, 3]
             {
@@ -69,9 +71,7 @@ namespace RPG.PlayerCharacter
                         int healAmount = (int)(this.heal * 1.5f);
                         foreach (var item in bravers)
                         {
-                            
                             item.Heal(healAmount);
-
                         }
                         mp -= actionConsumeMP[1, number - 1];
                         Console.SetCursorPosition(35, 27);
@@ -90,8 +90,11 @@ namespace RPG.PlayerCharacter
             }
             if (hitDamage != 0)
             {
+                UI.HitUI(monsters[target - 1], target);
                 monsters[target - 1].HitDamage(hitDamage);
+                Task.Delay(1000).Wait();
             }
+            PotionBuffCheck();
         }
 
         public int BuffCharacterSelect(Player[] bravers, int selectNumber)
@@ -135,6 +138,13 @@ namespace RPG.PlayerCharacter
             }
 
             return selectCharacterNumber;
+        }
+        public override void LevelUP()
+        {
+            this.damage += 10;
+            this.maxHP += 50;
+            this.maxMP += 150;
+            this.def += 7;
         }
     }
 }

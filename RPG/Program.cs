@@ -7,10 +7,12 @@ namespace RPG
     internal class Program
     {
         static void Main(string[] args)
-        {   
+        {
+            bool GameClear = false;
             UI.SetUI();
-            UI.StartIntro();
-            Task.Delay(3000).Wait();
+            Stage stage = new Stage();
+            /*UI.StartIntro();
+            Task.Delay(2000).Wait();*/
             UI.Clear();
             Braver braver = new Braver();
             Paladin paladin = new Paladin();
@@ -22,8 +24,12 @@ namespace RPG
             Braver braver3 = new Braver();
             Braver braver4 = new Braver();
             Player[] bravers = new Player[4] { braver, paladin, sage, saint };
+            UI.CharacterSetting(bravers);
 
-            Stage.Stage1Start(bravers, inventory);
+            while (!GameClear)
+            {
+                Town.TownStart(inventory, stage, bravers);              
+            }
         }
     }
 }

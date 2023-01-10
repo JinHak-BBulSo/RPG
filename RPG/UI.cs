@@ -91,7 +91,7 @@ namespace RPG
             foreach(char c in chars)
             {
                 Console.Write(c);
-                Task.Delay(40).Wait();
+                Task.Delay(30).Wait();
             }
             Console.SetCursorPosition(24, 10);
             str = "마왕성은 총 3개의 층으로 이루어져 있으며, 3층 심층부에 옥좌가 있습니다.";
@@ -99,7 +99,7 @@ namespace RPG
             foreach (char c in chars)
             {
                 Console.Write(c);
-                Task.Delay(40).Wait();
+                Task.Delay(30).Wait();
             }
             Console.SetCursorPosition(24, 12);
             str = "부디 인류를 위해 용사파티를 승리로 이끌어주시기 바랍니다.";
@@ -107,7 +107,7 @@ namespace RPG
             foreach (char c in chars)
             {
                 Console.Write(c);
-                Task.Delay(40).Wait();
+                Task.Delay(30).Wait();
             }
             Console.SetCursorPosition(24, 14);
             str = "용사파티는 용사와 팔라딘의 전열과 현자와 성녀의 후열로 구성되어있습니다.";
@@ -115,7 +115,7 @@ namespace RPG
             foreach (char c in chars)
             {
                 Console.Write(c);
-                Task.Delay(40).Wait();
+                Task.Delay(30).Wait();
             }
             Console.SetCursorPosition(24, 16);
             str = "이들의 스킬과 조합을 잘 활용해 마왕성을 공략해 나가주세요.";
@@ -123,7 +123,7 @@ namespace RPG
             foreach (char c in chars)
             {
                 Console.Write(c);
-                Task.Delay(40).Wait();
+                Task.Delay(30).Wait();
             }
         }
 
@@ -190,7 +190,7 @@ namespace RPG
 
             return selectNumber;
         }
-        static public int InventoryPointer()
+        static public int InventoryPointer(Inventory inventory)
         {
             ConsoleKeyInfo cki;
             int nowPointerY = 8;
@@ -227,6 +227,8 @@ namespace RPG
                     Console.Write("  ");
                     Console.SetCursorPosition(40, y);
                     Console.Write("☞");
+                    
+                    
                     nowPointerY = y;
                 }
                 else if (selectNumber <= 0)
@@ -249,6 +251,16 @@ namespace RPG
                     Console.Write("☞");
                     nowPointerY = y;
                 }
+                if (selectNumber <= 8)
+                {
+                    TextClear();
+                    Console.SetCursorPosition(35, 27);
+                    Console.Write(inventory.ItemTooltip[selectNumber - 1]);
+                }
+                else
+                {
+                    TextClear();
+                }
             } // loop : 행동 선택
 
             return selectNumber;
@@ -256,7 +268,7 @@ namespace RPG
         static public void TextClear()
         {
             Console.SetCursorPosition(22, 27);
-            Console.Write("                                                                            ");
+            Console.Write("                                                                           ");
         }
 
         static public void Clear()
@@ -265,8 +277,8 @@ namespace RPG
 
             for (int i = 8; i <= 24; i++)
             {
-                Console.SetCursorPosition(24, i);
-                Console.Write("                                                                         ");
+                Console.SetCursorPosition(22, i);
+                Console.Write("                                                                           ");
             }
         }
 
@@ -353,7 +365,36 @@ namespace RPG
         static public void ControlChaTextClear()
         {
             Console.SetCursorPosition(22, 5);
-            Console.Write("                                        ");
+            Console.Write("                                                    ");
+        }
+        static public void HitUI(Character character, int target)
+        {
+            int x;
+            string position = "";
+            if (!character.IsMonster) x = 6;
+            else x = 105;
+
+            if (character.JobName == "팔라딘" || character.JobName == "용사")
+            {
+                position = "(전열)";
+                if(character.JobName == "팔라딘")
+                    Console.SetCursorPosition(x - 1, target * 6);
+            }
+            else if(character.JobName == "현자" || character.JobName == "성녀")
+            {
+                position = "(후열)";
+                Console.SetCursorPosition(x, target * 6);
+            }
+            else
+            {
+                Console.SetCursorPosition(x - 3, target * 6);
+            }
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("{0}{1}", character.JobName, position);
+            Console.SetCursorPosition(x - 4, target * 6 + 2);
+            Console.Write(" HP {0}  MP {1}  ", character.Hp, character.Mp);
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }

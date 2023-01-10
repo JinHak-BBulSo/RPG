@@ -10,6 +10,7 @@ namespace RPG.PlayerCharacter
     {
         public Sage()
         {
+            this.isMonster = false;
             this.hp = 300;
             this.maxHP = hp;
             this.mp = 450;
@@ -17,6 +18,7 @@ namespace RPG.PlayerCharacter
             this.damage = 12;
             this.jobName = "현자";
             this.def = 10;
+            this.originDamage = this.damage;
             this.actionConsumeMP = new int[2, 3]
             {
                 { 10, 10, 10 },
@@ -109,8 +111,18 @@ namespace RPG.PlayerCharacter
             }
             if (hitDamage != 0)
             {
+                UI.HitUI(monsters[target - 1], target);
                 monsters[target - 1].HitDamage(hitDamage);
+                Task.Delay(1000).Wait();
             }
+            PotionBuffCheck();
+        }
+        public override void LevelUP()
+        {
+            this.damage += 30;
+            this.maxHP += 50;
+            this.maxMP += 125;
+            this.def += 10;
         }
     }
 }

@@ -5,30 +5,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RPG.Monster
+namespace RPG.Monster.Stage1
 {
-    internal class SkullGeneral : Character
+    internal class SkullKnight : Character
     {
-        public SkullGeneral()
+        public SkullKnight()
         {
-            this.hp = 1500;
-            this.mp = 250;
-            this.damage = 70;
-            this.jobName = "스켈레톤 대장군";
+            isMonster = true;
+            hp = 700;
+            mp = 150;
+            damage = 55;
+            jobName = "스켈레톤 기사";
         }
         public override void ActionSelect(Player[] bravers)
         {
             UI.ControlChaTextClear();
             UI.TextClear();
             Console.SetCursorPosition(22, 5);
-            Console.Write("행동중인 몬스터 : " + this.jobName);
+            Console.Write("행동중인 몬스터 : " + jobName);
             bool actionSelctComplete = false;
             while (!actionSelctComplete)
             {
                 Random random = new Random();
                 UI.Clear();
                 int pickNumber = 0;
-                if (this.mp >= 50)
+                if (mp >= 30)
                     pickNumber = random.Next(1, 2 + 1);
                 else
                     pickNumber = 1;
@@ -36,7 +37,7 @@ namespace RPG.Monster
                 switch (pickNumber)
                 {
                     case 1:
-                        if (this.mp >= 5)
+                        if (mp >= 5)
                             pickNumber = random.Next(1, 2 + 1);
                         else pickNumber = 1;
                         if (pickNumber < 3)
@@ -48,7 +49,7 @@ namespace RPG.Monster
                         break;
                     case 2:
                         pickNumber = random.Next(1, 2 + 1);
-                        if (this.mp < 100) pickNumber = 1;
+                        if (mp < 50) pickNumber = 1;
                         if (pickNumber < 3)
                         {
                             selectNumber = pickNumber;
@@ -58,7 +59,7 @@ namespace RPG.Monster
                         break;
                 }
             }
-            this.turnFinish = true;
+            turnFinish = true;
             ActionStart(selectNumber, selectAction, bravers);
         }
 
@@ -80,18 +81,18 @@ namespace RPG.Monster
                 case "ATTACK":
                     if (number == 1)
                     {
-                        hitDamage = this.damage - bravers[target - 1].Def;
+                        hitDamage = damage - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 대장군의 참격 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("스켈레톤 기사의 찌르기 : {0}의 피해를 입혔다", hitDamage);
                     }
                     if (number == 2)
                     {
-                        hitDamage = this.damage * 2 - bravers[target - 1].Def;
+                        hitDamage = (int)(damage * 1.5f) - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
-                        this.mp -= 5;
+                        mp -= 5;
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 대장군의 3연격 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("스켈레톤 기사의 라이딩 어택 : {0}의 피해를 입혔다", hitDamage);
                     }
                     break;
                 case "SKILL":
@@ -99,25 +100,26 @@ namespace RPG.Monster
                     {
                         foreach (var item in bravers)
                         {
-                            hitDamage = (int)(this.damage * 1.5f) - item.Def;
+                            hitDamage = damage * 2 - item.Def;
                             item.HitDamage(hitDamage);
-                        } 
+                        }
                         bravers[target - 1].HitDamage(hitDamage);
-                        this.mp -= 50;
+                        mp -= 30;
                         Console.SetCursorPosition(26, 27);
-                        Console.Write("스켈레톤 대장군의 지옥참마도 : 전원 피해를 입혔다", hitDamage);
-                        
+                        Console.Write("스켈레톤 기사의 지옥의 검술 : {0}의 피해를 입혔다", hitDamage);
+
                     }
-                    else if(number == 2)
+                    else if (number == 2)
                     {
-                        hitDamage = this.damage * 3 - bravers[target - 1].Def;
+                        hitDamage = damage * 3 - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
-                        this.mp -= 70;
+                        mp -= 50;
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 대장군의 심장파괴 : {0}에게 {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
+                        Console.Write("스켈레톤 기사의 필살의 돌격 : {0}의 피해를 입혔다", hitDamage);
                     }
                     break;
             }
+            UI.HitUI(bravers[target - 1], target);
             Task.Delay(2000).Wait();
         }
     }

@@ -10,6 +10,17 @@ namespace RPG
 {
     internal class ActionList
     {
+        static public void TownStartActionList()
+        {
+            UI.Clear();
+            Console.SetCursorPosition(44, 8);
+            Console.Write("1. 상점");
+            Console.SetCursorPosition(44, 11);
+            Console.Write("2. 모험");
+            Console.SetCursorPosition(44, 14);
+            Console.Write("3. 인벤토리 확인");
+        }
+
         static public void PrintActionList()
         {
             UI.Clear();

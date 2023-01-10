@@ -10,10 +10,11 @@ namespace RPG.PlayerCharacter
     {
         int blessingCount = 0;
         int blessingOverlap = 0;
-        int originDamage;
+        
 
         public Braver()
         {
+            this.isMonster = false;
             this.hp = 400;
             this.maxHP = hp;
             this.mp = 200;
@@ -106,8 +107,24 @@ namespace RPG.PlayerCharacter
             }
             if(hitDamage != 0)
             {
+                UI.HitUI(monsters[target - 1], target);
                 monsters[target - 1].HitDamage(hitDamage);
+                Task.Delay(1000).Wait();
             }
+            PotionBuffCheck();
+        }
+        public override void Recall()
+        {
+            base.Recall();
+            this.blessingCount = 0;
+            this.blessingOverlap = 0;
+        }
+        public override void LevelUP()
+        {
+            this.damage += 20;
+            this.maxHP += 50;
+            this.maxMP += 50;
+            this.def += 15;
         }
     }
 }

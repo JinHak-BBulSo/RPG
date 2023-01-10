@@ -13,10 +13,38 @@ namespace RPG.PlayerCharacter
 
     internal class Player : Character
     {
+        protected int level = 1;
+        private int[] expRequire = new int[9]{ 100, 200, 300, 400, 500, 600, 700 ,800, 900 };
+        protected int exp = 0;
+        public int Exp
+        {
+            get { return exp; }
+            private set { exp = value; }
+        }
         protected int heal = 0;
         protected int damageUpPotionTurn = 0;
+        protected bool damagePotionUsed = false;
+        protected int nowDamageUpPotion = 0;
+        public bool DamagePotionUsed
+        {
+            get { return damagePotionUsed; }
+            private set { damagePotionUsed = value; }
+        }
         protected int healUpPotionTurn = 0;
+        protected bool healUpPotionUsed = false;
+        public bool HealUpPotionUsed
+        {
+            get { return healUpPotionUsed; }
+            private set { healUpPotionUsed = value; }
+        }
+        public int nowHealUpPotion = 0;
         protected bool isSeraph = false;
+        protected bool isAvoid = false;
+        public bool IsAvoid
+        {
+            get { return isAvoid; }
+            private set { isAvoid = value; }
+        }
         public bool IsSeraph
         {
             get { return isSeraph; }
@@ -101,7 +129,7 @@ namespace RPG.PlayerCharacter
                             break;
                         case 3:
                             inventory.PrintInventory();
-                            pickNumber = UI.InventoryPointer();
+                            pickNumber = UI.InventoryPointer(inventory);
                             if (pickNumber == 9)
                             {
                                 actionSelectNumber = 0;
@@ -114,8 +142,8 @@ namespace RPG.PlayerCharacter
                                 continue;
                             }
                         case 4:
-                            actionSelectNumber = 0;
-                            continue;
+                            this.isAvoid = true;
+                            return;
                     }
                 }
                 consumeMP = actionConsumeMP[(int)Action_.ATTACK, pickNumber - 1];
@@ -153,28 +181,66 @@ namespace RPG.PlayerCharacter
             if (selectCharacterNumber == (int)BraverParty.BRAVER || selectCharacterNumber == (int)BraverParty.SAGE)
             {
                 ActionStart(selectNumber, selectAction, targetNumber, monsters);
+                
             }
             else
             {
                 ActionStart(selectNumber, selectAction, targetNumber, bravers, monsters);
             }
+             
         }
         public void DamageUpPotion(int number)
         {
             if (number == 0)
+            {
+                nowDamageUpPotion = 15;
                 this.damage += 15;
+            }
             else
+            {
+                nowDamageUpPotion = 30;
                 this.damage += 30;
+            }
+            damageUpPotionTurn = 2;
+            damagePotionUsed = true;
         }
         public void HealUpPotion(int number)
         {
             if (number == 0)
             {
+                nowHealUpPotion = 10;
                 this.heal += 10;
             }
             else
+            {
+                nowHealUpPotion = 20;
                 this.heal += 20;
-
+            }
+            healUpPotionTurn = 2;
+            healUpPotionUsed = true;
+        }
+        public void PotionBuffCheck()
+        {
+            if (damagePotionUsed)
+            {
+                damageUpPotionTurn--;
+                if(damageUpPotionTurn == 0)
+                {
+                    this.damage -= nowDamageUpPotion;
+                    damagePotionUsed = false;
+                    nowDamageUpPotion = 0;
+                }
+            }
+            if (healUpPotionUsed)
+            {
+                healUpPotionTurn--;
+                if(healUpPotionTurn == 0)
+                {
+                    this.heal -= nowHealUpPotion;
+                    healUpPotionUsed = false;
+                    nowHealUpPotion = 0;
+                }
+            }
         }
         public void MPPotion(int number)
         {
@@ -194,7 +260,7 @@ namespace RPG.PlayerCharacter
             this.hp += heal;
             if (hp > this.maxHP)
             {
-                hp = maxHP;
+                this.hp = maxHP;
             }
         }
 
@@ -208,7 +274,47 @@ namespace RPG.PlayerCharacter
         }
         public void Revive()
         {
-            isDie = false;
+            this.isDie = false;
+        }
+
+        public virtual void Recall()
+        {
+            this.isDie = false;
+            this.hp = this.maxHP;
+            this.mp = this.maxMP;
+            this.def = this.originDef;
+            this.damageUpPotionTurn = 0;
+            this.healUpPotionTurn = 0;
+            this.isSeraph = false;
+            this.damage = this.originDamage;
+            this.turnFinish = false;
+            this.isAvoid = false;
+        }
+        public void GetExp(int exp)
+        {
+            if (this.level == 10) return;
+            this.exp += exp;
+            if(this.exp >= expRequire[this.level - 1])
+            {
+                this.exp -= expRequire[this.level - 1];
+                Console.SetCursorPosition(35, 27);
+                Console.Write("{0} 레벨업을 했다.", this.jobName);
+            }
+            this.level++;
+            if (level == 10) this.exp = 0;
+        }
+        public virtual void LevelUP()
+        {
+            /* override using */
+        }
+
+        public void AutoMPRecovery()
+        {
+            this.mp += 15;
+            if(mp > maxMP)
+            {
+                mp = maxMP;
+            }
         }
     }
 }

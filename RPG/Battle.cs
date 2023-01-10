@@ -31,6 +31,7 @@ namespace RPG
                 { 
                     int selectCharacterNumber = CharacterSelect(bravers);
                     bravers[selectCharacterNumber - 1].ActionSelect(bravers, monsters, selectCharacterNumber, inventory);
+                    if (bravers[selectCharacterNumber - 1].IsAvoid) return false;
                     UI.CharacterSetting(bravers);
                     UI.MonsterSetting(monsters);
                     monsterAllDie = (monsters[0].IsDie && monsters[1].IsDie && monsters[2].IsDie && monsters[3].IsDie);
@@ -44,11 +45,6 @@ namespace RPG
                     Console.WriteLine("승리했습니다!");
                     isClear = true;
                     return isClear;
-                }
-
-                foreach (var item in bravers)
-                {
-                    if (!item.IsDie) item.TurnReset();
                 }
 
                 Task.Delay(1000).Wait();
@@ -66,12 +62,19 @@ namespace RPG
                 {
                     Console.SetCursorPosition(35, 27);
                     Console.WriteLine("패배했습니다.");
+                    Town.TownRecall(bravers);
                     return isClear;
                 }
 
                 foreach (var item in monsters)
                 {
                     if (!item.IsDie) item.TurnReset();
+                }
+
+                foreach (var item in bravers)
+                {
+                    if (!item.IsDie) item.TurnReset();
+                    item.AutoMPRecovery();
                 }
             }
         }

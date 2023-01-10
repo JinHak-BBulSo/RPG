@@ -15,6 +15,7 @@ namespace RPG.PlayerCharacter
         
         public Paladin()
         {
+            this.isMonster = false;
             this.heal = 15;
             this.hp = 500;
             this.maxHP = hp;
@@ -22,7 +23,8 @@ namespace RPG.PlayerCharacter
             this.maxMP = mp;
             this.damage = 7;
             this.def = 20;
-            originDef = this.def;
+            this.originDef = this.def;
+            this.originDamage = this.damage;
             this.jobName = "팔라딘";
             this.actionConsumeMP = new int[2, 3]
             {
@@ -126,8 +128,25 @@ namespace RPG.PlayerCharacter
 
             if (hitDamage != 0)
             {
+                UI.HitUI(monsters[target - 1], target);
                 monsters[target - 1].HitDamage(hitDamage);
+                Task.Delay(1000).Wait();
             }
+            PotionBuffCheck();
+        }
+        public override void Recall()
+        {
+            base.Recall();
+            this.seraphCount = 0;
+            this.seraphOverlap = 0;
+            this.sanctuaryCount = 0;
+        }
+        public override void LevelUP()
+        {
+            this.damage += 10;
+            this.maxHP += 100;
+            this.maxMP += 75;
+            this.def += 20;
         }
     }
 }

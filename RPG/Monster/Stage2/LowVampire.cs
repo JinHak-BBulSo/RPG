@@ -5,31 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RPG.Monster
+namespace RPG.Monster.Stage2
 {
-    internal class SkullArchor : Character
+    internal class LowVampire : Character
     {
-        public SkullArchor() 
-        {
-            this.hp = 350;
-            this.mp = 110;
-            this.damage = 40;
-            this.jobName = "스켈레톤 궁수";
-            this.isWindWeak = true;
-        }
         public override void ActionSelect(Player[] bravers)
         {
             UI.ControlChaTextClear();
             UI.TextClear();
             Console.SetCursorPosition(22, 5);
-            Console.Write("행동중인 몬스터 : " + this.jobName);
+            Console.Write("행동중인 몬스터 : " + jobName);
             bool actionSelctComplete = false;
             while (!actionSelctComplete)
             {
                 Random random = new Random();
                 UI.Clear();
                 int pickNumber = 0;
-                if (this.mp >= 15)
+                if (mp >= 15)
                     pickNumber = random.Next(1, 2 + 1);
                 else
                     pickNumber = 1;
@@ -37,7 +29,7 @@ namespace RPG.Monster
                 switch (pickNumber)
                 {
                     case 1:
-                        if (this.mp >= 5)
+                        if (mp >= 5)
                             pickNumber = random.Next(1, 2 + 1);
                         else pickNumber = 1;
                         if (pickNumber < 3)
@@ -58,7 +50,7 @@ namespace RPG.Monster
                         break;
                 }
             }
-            this.turnFinish = true;
+            turnFinish = true;
             ActionStart(selectNumber, selectAction, bravers);
         }
 
@@ -80,28 +72,29 @@ namespace RPG.Monster
                 case "ATTACK":
                     if (number == 1)
                     {
-                        hitDamage = this.damage - bravers[target - 1].Def;
+                        hitDamage = damage - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
                         Console.SetCursorPosition(35, 27);
                         Console.Write("스켈레톤 궁수의 화살 공격 : {0}의 피해를 입혔다", hitDamage);
                     }
                     if (number == 2)
                     {
-                        hitDamage = (int)(this.damage * 1.5f) - bravers[target - 1].Def;
+                        hitDamage = (int)(damage * 1.5f) - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
-                        this.mp -= 5;
+                        mp -= 5;
                         Console.SetCursorPosition(35, 27);
                         Console.Write("스켈레톤 궁수의 차지샷 : {0}의 피해를 입혔다", hitDamage);
                     }
                     break;
                 case "SKILL":
-                    hitDamage = this.damage * 2 - bravers[target - 1].Def;
+                    hitDamage = damage * 2 - bravers[target - 1].Def;
                     bravers[target - 1].HitDamage(hitDamage);
-                    this.mp -= 15;
+                    mp -= 15;
                     Console.SetCursorPosition(35, 27);
                     Console.Write("스켈레톤 궁수의 트리플 에로우 : {0}의 피해를 입혔다", hitDamage);
                     break;
             }
+            UI.HitUI(bravers[target - 1], target);
             Task.Delay(2000).Wait();
         }
     }

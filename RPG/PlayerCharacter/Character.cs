@@ -49,6 +49,7 @@ namespace RPG.PlayerCharacter
             get { return damage; }
             private set { damage = value; }
         }
+        protected int originDamage;
 
         protected int def;
         protected int originDef;
@@ -77,6 +78,11 @@ namespace RPG.PlayerCharacter
 
         // 몬스터인가?
         protected bool isMonster = false;
+        public bool IsMonster
+        {
+            get { return isMonster; }
+            private set { isMonster = value; }
+        }
         protected bool isFireWeak = false;
         public bool IsFireWeak
         {
@@ -165,6 +171,5 @@ namespace RPG.PlayerCharacter
                 this.isDie = true;
             }
         }
-        
     }
 }
