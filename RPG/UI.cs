@@ -320,7 +320,7 @@ namespace RPG
         {
             Console.SetCursorPosition(24, 8);
 
-            for (int i = 8; i <= 24; i++)
+            for (int i = 6; i <= 24; i++)
             {
                 Console.SetCursorPosition(22, i);
                 Console.Write("                                                                           ");
@@ -424,8 +424,8 @@ namespace RPG
                 position = "(전열)";
                 if(character.JobName == "팔라딘")
                     Console.SetCursorPosition(x - 1, target * 6);
-                /*else
-                    Console.SetCursorPosition(x, target * 6);*/
+                else
+                    Console.SetCursorPosition(x, target * 6);
             }
             else if(character.JobName == "현자" || character.JobName == "성녀")
             {

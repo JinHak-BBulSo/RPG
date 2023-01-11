@@ -43,6 +43,9 @@ namespace RPG.PlayerCharacter
                         hitDamage = damage;
                         Console.SetCursorPosition(35, 27);
                         Console.Write("용사의 수직베기 : {0}의 피해를 입혔다", hitDamage);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        act.VerticalSlash();
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     else if(number == 2)
                     {
@@ -60,6 +63,9 @@ namespace RPG.PlayerCharacter
                         mp -= actionConsumeMP[0, number - 1];
                         Console.SetCursorPosition(35, 27);
                         Console.Write("용사의 더블 슬래쉬 : {0}의 피해를 입혔다", hitDamage);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        act.DoubleSlash();
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     break;
                 case "SKILL":
@@ -78,8 +84,7 @@ namespace RPG.PlayerCharacter
                         mp -= actionConsumeMP[1, number - 1];
                         Console.SetCursorPosition(35, 27);
                         Console.Write("성검 : 엑스칼리버 {0}의 피해를 입혔다", hitDamage);
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        act.Slash();
+                        act.Excalibur();
                         Console.ForegroundColor = ConsoleColor.White;
                     }
                     else
@@ -88,6 +93,9 @@ namespace RPG.PlayerCharacter
                         mp -= actionConsumeMP[1, number - 1];
                         Console.SetCursorPosition(35, 27);
                         Console.Write("최후의 심판 {0}의 피해를 입혔다", hitDamage);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        act.FinalJudgment();
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     break;
             }
