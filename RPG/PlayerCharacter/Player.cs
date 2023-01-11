@@ -53,6 +53,7 @@ namespace RPG.PlayerCharacter
 
         public override void ActionSelect(Player[] bravers, Character[] monsters, int selectCharacterNumber, Inventory inventory)
         {
+
             Console.SetCursorPosition(22, 5);
             Console.Write("조작중인 캐릭터 : " + this.jobName);
             //플레이어 캐릭터
@@ -168,6 +169,66 @@ namespace RPG.PlayerCharacter
                         }
                     }
                 }
+                else if(this.jobName == "성녀" && (pickNumber == 1 || pickNumber == 3) && isBuff)
+                {
+                    int BuffTargetNumber = 0;
+                    UI.ControlChaTextClear();
+
+                    if (selectNumber == 1)
+                    {
+                        UI.PrintCharacterList();
+                        Console.SetCursorPosition(44, 20);
+                        Console.Write("5. 뒤로");
+                        BuffTargetNumber = UI.SelectPointer(5);
+
+                        if (BuffTargetNumber != 5)
+                        {
+                            if (bravers[BuffTargetNumber - 1].IsDie)
+                            {
+                                UI.TextClear();
+                                Console.SetCursorPosition(35, 27);
+                                Console.Write("{0}은 현재 전투 불능입니다.", bravers[BuffTargetNumber - 1].JobName);
+                                BuffTargetNumber = 0;
+                                continue;
+                            }
+                            else
+                                targetNumber = BuffTargetNumber;
+                        }
+                        else if (BuffTargetNumber == 5)
+                        {
+                            isBuff = false;
+                            BuffTargetNumber = 0;
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        UI.PrintCharacterList();
+                        Console.SetCursorPosition(44, 20);
+                        Console.Write("5. 뒤로");
+                        BuffTargetNumber = UI.SelectPointer(5);
+
+                        if (BuffTargetNumber != 5)
+                        {
+                            if (!bravers[BuffTargetNumber - 1].IsDie)
+                            {
+                                UI.TextClear();
+                                Console.SetCursorPosition(35, 27);
+                                Console.Write("{0}은 현재 생존해 있입니다.", bravers[BuffTargetNumber - 1].JobName);
+                                BuffTargetNumber = 0;
+                                continue;
+                            }
+                            else
+                                targetNumber = BuffTargetNumber;
+                        }
+                        else if (BuffTargetNumber == 5)
+                        {
+                            isBuff = false;
+                            BuffTargetNumber = 0;
+                            continue;
+                        }
+                    }
+                }
 
                 if (this.mp - consumeMP < 0)
                 {
@@ -180,14 +241,13 @@ namespace RPG.PlayerCharacter
             bravers[selectCharacterNumber - 1].TurnOver();
             if (selectCharacterNumber == (int)BraverParty.BRAVER || selectCharacterNumber == (int)BraverParty.SAGE)
             {
-                ActionStart(selectNumber, selectAction, targetNumber, monsters);
-                
+                ActionStart(selectNumber, selectAction, targetNumber, monsters); 
             }
             else
             {
                 ActionStart(selectNumber, selectAction, targetNumber, bravers, monsters);
+
             }
-             
         }
         public void DamageUpPotion(int number)
         {
@@ -255,14 +315,7 @@ namespace RPG.PlayerCharacter
                 this.mp = maxMP;
         }
 
-        public void Heal(int heal)
-        {
-            this.hp += heal;
-            if (hp > this.maxHP)
-            {
-                this.hp = maxHP;
-            }
-        }
+   
 
         public void DefUp(int buffDef)
         {
@@ -310,10 +363,21 @@ namespace RPG.PlayerCharacter
 
         public void AutoMPRecovery()
         {
-            this.mp += 15;
-            if(mp > maxMP)
+            if (!isMonster)
             {
-                mp = maxMP;
+                this.mp += 15;
+                if (mp > maxMP)
+                {
+                    mp = maxMP;
+                }
+            }
+            else
+            {
+                this.mp += 10;
+                if (mp > maxMP)
+                {
+                    mp = maxMP;
+                }
             }
         }
     }

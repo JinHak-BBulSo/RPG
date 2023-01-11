@@ -12,7 +12,7 @@ namespace RPG.Monster.Stage1
         public SkullKnight()
         {
             isMonster = true;
-            hp = 700;
+            hp = 900;
             mp = 150;
             damage = 55;
             jobName = "스켈레톤 기사";
@@ -84,7 +84,7 @@ namespace RPG.Monster.Stage1
                         hitDamage = damage - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 기사의 찌르기 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("스켈레톤 기사의 찌르기 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     if (number == 2)
                     {
@@ -92,7 +92,7 @@ namespace RPG.Monster.Stage1
                         bravers[target - 1].HitDamage(hitDamage);
                         mp -= 5;
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 기사의 라이딩 어택 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("스켈레톤 기사의 라이딩 어택 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     break;
                 case "SKILL":
@@ -106,7 +106,7 @@ namespace RPG.Monster.Stage1
                         bravers[target - 1].HitDamage(hitDamage);
                         mp -= 30;
                         Console.SetCursorPosition(26, 27);
-                        Console.Write("스켈레톤 기사의 지옥의 검술 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("스켈레톤 기사의 지옥의 검술 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
 
                     }
                     else if (number == 2)
@@ -115,7 +115,7 @@ namespace RPG.Monster.Stage1
                         bravers[target - 1].HitDamage(hitDamage);
                         mp -= 50;
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 기사의 필살의 돌격 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("스켈레톤 기사의 필살의 돌격 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     break;
             }

@@ -4,21 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
-namespace RPG.Monster.Stage2
+namespace RPG.Monster.Stage3
 {
-    internal class HighVampire : Character
+    internal class DragonKing : Character
     {
-        public HighVampire()
+        public DragonKing()
         {
-            isFireWeak = true;
+            isIceWeak = true;
             isMonster = true;
-            hp = 1200;
-            mp = 300;
+            hp = 3000;
+            mp = 500;
             this.maxHP = this.hp;
             this.maxMP = this.mp;
-            damage = 85;
-            jobName = "상위 뱀파이어";
+            damage = 110;
+            jobName = "용왕";
             isWindWeak = true;
         }
         public override void ActionSelect(Player[] bravers)
@@ -53,7 +54,7 @@ namespace RPG.Monster.Stage2
                         break;
                     case 2:
                         pickNumber = random.Next(1, 2 + 1);
-                        if (mp < 100) pickNumber = 1;
+                        if (mp < 80) pickNumber = 1;
                         if (pickNumber < 3)
                         {
                             selectNumber = pickNumber;
@@ -88,42 +89,35 @@ namespace RPG.Monster.Stage2
                         hitDamage = damage - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("고위 뱀파이어의 블러드 샷 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
+                        Console.Write("용왕의 맹진 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     if (number == 2)
                     {
                         hitDamage = (int)(damage * 1.2f) * 2 - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
-                        mp -= 30;
+                        mp -= 5;
                         RecoveryMP(hitDamage / 2);
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("고위 뱀파이어의 에너지 드레인 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
-                        UI.TextClear();
-                        Console.SetCursorPosition(35, 27);
-                        Task.Delay(1000).Wait();
-                        Console.Write("고위 뱀파이어가 {0}의 마나를 회복했다.", hitDamage / 2);
+                        Console.Write("화염 브레스 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     break;
                 case "SKILL":
                     if (number == 1)
                     {
-                        foreach (var item in bravers)
-                        {
-                            hitDamage = (int)(damage * 1.5f) - item.Def;
-                            item.HitDamage(hitDamage);
-                        }
+                        hitDamage = (int)(damage * 3.5f) - bravers[target - 1].Def;
+                        bravers[target - 1].HitDamage(hitDamage);
                         mp -= 50;
                         Console.SetCursorPosition(26, 27);
-                        Console.Write("고위 뱀파이어의 블러드 레인 : 전원 피해를 입혔다", hitDamage);
+                        Console.Write("용왕의 겁화 : 전원 피해를 입혔다", hitDamage);
 
                     }
                     else if (number == 2)
                     {
-                        hitDamage = damage * 3 - bravers[target - 1].Def;
+                        hitDamage = damage * 5 - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
-                        mp -= 100;
+                        mp -= 80;
                         Console.SetCursorPosition(26, 27);
-                        Console.Write("고위 뱀파이어의 블러드 스트림 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
+                        Console.Write("용왕의 힘 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     break;
             }

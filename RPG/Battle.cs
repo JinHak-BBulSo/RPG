@@ -83,6 +83,7 @@ namespace RPG
         {
             int selectCharacterNumber = 0;
             UI.ControlChaTextClear();
+            UI.TextClear();
 
             while (selectCharacterNumber == 0)
             {

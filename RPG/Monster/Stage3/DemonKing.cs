@@ -4,21 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
-namespace RPG.Monster.Stage2
+namespace RPG.Monster.Stage3
 {
-    internal class HighVampire : Character
+    internal class DemonKing : Character
     {
-        public HighVampire()
+        public DemonKing() 
         {
-            isFireWeak = true;
+            isIceWeak = true;
             isMonster = true;
-            hp = 1200;
-            mp = 300;
+            hp = 5000;
+            mp = 1000;
             this.maxHP = this.hp;
             this.maxMP = this.mp;
-            damage = 85;
-            jobName = "상위 뱀파이어";
+            damage = 125;
+            jobName = "마왕";
             isWindWeak = true;
         }
         public override void ActionSelect(Player[] bravers)
@@ -41,7 +42,7 @@ namespace RPG.Monster.Stage2
                 switch (pickNumber)
                 {
                     case 1:
-                        if (mp >= 5)
+                        if (mp >= 30)
                             pickNumber = random.Next(1, 2 + 1);
                         else pickNumber = 1;
                         if (pickNumber < 3)
@@ -53,7 +54,7 @@ namespace RPG.Monster.Stage2
                         break;
                     case 2:
                         pickNumber = random.Next(1, 2 + 1);
-                        if (mp < 100) pickNumber = 1;
+                        if (mp < 90) pickNumber = 1;
                         if (pickNumber < 3)
                         {
                             selectNumber = pickNumber;
@@ -88,20 +89,16 @@ namespace RPG.Monster.Stage2
                         hitDamage = damage - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("고위 뱀파이어의 블러드 샷 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
+                        Console.Write("마의 숨결 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     if (number == 2)
                     {
-                        hitDamage = (int)(damage * 1.2f) * 2 - bravers[target - 1].Def;
+                        hitDamage = (int)(damage * 2.3f) * 2 - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
                         mp -= 30;
                         RecoveryMP(hitDamage / 2);
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("고위 뱀파이어의 에너지 드레인 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
-                        UI.TextClear();
-                        Console.SetCursorPosition(35, 27);
-                        Task.Delay(1000).Wait();
-                        Console.Write("고위 뱀파이어가 {0}의 마나를 회복했다.", hitDamage / 2);
+                        Console.Write("디멘션 블레이드 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     break;
                 case "SKILL":
@@ -109,21 +106,24 @@ namespace RPG.Monster.Stage2
                     {
                         foreach (var item in bravers)
                         {
-                            hitDamage = (int)(damage * 1.5f) - item.Def;
+                            hitDamage = (int)(damage * 1.8f) - item.Def;
                             item.HitDamage(hitDamage);
                         }
                         mp -= 50;
                         Console.SetCursorPosition(26, 27);
-                        Console.Write("고위 뱀파이어의 블러드 레인 : 전원 피해를 입혔다", hitDamage);
+                        Console.Write("검은 태양 : 전원 피해를 입혔다");
 
                     }
                     else if (number == 2)
                     {
-                        hitDamage = damage * 3 - bravers[target - 1].Def;
-                        bravers[target - 1].HitDamage(hitDamage);
-                        mp -= 100;
+                        foreach (var item in bravers)
+                        {
+                            hitDamage = (int)(damage * 3.2f) - item.Def;
+                            item.HitDamage(hitDamage);
+                        }
+                        mp -= 90;
                         Console.SetCursorPosition(26, 27);
-                        Console.Write("고위 뱀파이어의 블러드 스트림 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
+                        Console.Write("악의 제전 : 전원 피해를 입혔다");
                     }
                     break;
             }

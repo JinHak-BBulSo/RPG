@@ -1,4 +1,6 @@
 ﻿using RPG.Monster.Stage1;
+using RPG.Monster.Stage2;
+using RPG.Monster.Stage3;
 using RPG.PlayerCharacter;
 using System;
 using System.Collections.Generic;
@@ -28,12 +30,6 @@ namespace RPG
             get { return stage3Clear; }
             private set { stage3Clear = value; }
         }
-        private bool boosStageClear = false;
-        public bool BoosStageClear
-        {
-            get { return boosStageClear; }
-            private set { boosStageClear = value; }
-        }
 
         public void Stage1Start(Player[] bravers, Inventory inventory)
         {
@@ -45,6 +41,10 @@ namespace RPG
             SkullArchor skullArchor2 = new SkullArchor();
             SkullWarrior skullWarrior = new SkullWarrior();
             SkullWarrior skullWarrior2 = new SkullWarrior();
+            SkullKnight skullKnight = new SkullKnight();
+            SkullKnight skullKnight2 = new SkullKnight();
+            SkullGeneral skullGeneral = new SkullGeneral();
+
             Character[] monsters = new Character[4] { skullArchor, skullArchor2, skullWarrior, skullWarrior2 };
 
             UI.CharacterSetting(bravers);
@@ -58,8 +58,7 @@ namespace RPG
                     player.GetExp(25);
                 }
                 inventory.GetMoney(1000);
-                SkullKnight skullKnight = new SkullKnight();
-                SkullKnight skullKnight2 = new SkullKnight();
+                
                 skullArchor = new SkullArchor();
                 skullWarrior = new SkullWarrior();
                 monsters[0] = skullKnight;
@@ -81,9 +80,9 @@ namespace RPG
                     player.GetExp(25);
                 }
                 inventory.GetMoney(1000);
-                SkullGeneral skullGeneral = new SkullGeneral();
-                SkullKnight skullKnight = new SkullKnight();
-                SkullKnight skullKnight2 = new SkullKnight();
+                
+                skullKnight = new SkullKnight();
+                skullKnight2 = new SkullKnight();
                 skullWarrior = new SkullWarrior();
                 monsters[0] = skullGeneral;
                 monsters[1] = skullKnight;
@@ -111,11 +110,109 @@ namespace RPG
                 return;
             }
         }
-        public void Stage2Start(Player[] bravers, Inventory inventory) { }
-        public void Stage3Start(Player[] bravers, Inventory inventory) { }
-        public void BossStageStart(Player[] bravers, Inventory inventory)
+        public void Stage2Start(Player[] bravers, Inventory inventory) 
         {
+            bool wave1Clear = false;
+            bool wave2Clear = false;
+            bool wave3Clear = false;
 
+            Creature creature1 = new Creature();
+            Creature creature2 = new Creature();
+            LowVampire lowVampire1 = new LowVampire();
+            LowVampire lowVampire2 = new LowVampire();
+            HighVampire highVampire1 = new HighVampire();
+            HighVampire highVampire2 = new HighVampire();
+            VampireLord vampireLord = new VampireLord();
+
+            Character[] monsters = new Character[4] { creature1, creature2, lowVampire1, lowVampire2 };
+
+            UI.CharacterSetting(bravers);
+            UI.MonsterSetting(monsters);
+
+            wave1Clear = Battle.BattleStart(bravers, monsters, inventory);
+
+            if (wave1Clear)
+            {
+                foreach (Player player in bravers)
+                {
+                    player.GetExp(25); // 사망시 경험치 획득 불가
+                }
+                inventory.GetMoney(1000);
+                
+                lowVampire1 = new LowVampire();
+                lowVampire2 = new LowVampire();
+                monsters[0] = highVampire1;
+                monsters[1] = highVampire2;
+                monsters[2] = lowVampire1;
+                monsters[3] = lowVampire2;
+            }
+            else
+            {
+                Town.TownRecall(bravers);
+                return;
+            }
+
+            wave2Clear = Battle.BattleStart(bravers, monsters, inventory);
+
+            if (wave2Clear)
+            {
+                foreach (Player player in bravers)
+                {
+                    if (player.IsDie) continue; 
+                    player.GetExp(25);
+                }
+                inventory.GetMoney(1000);
+                highVampire1 = new HighVampire();
+                highVampire2 = new HighVampire();
+                lowVampire1 = new LowVampire();
+
+                monsters[0] = vampireLord;
+                monsters[1] = highVampire1;
+                monsters[2] = highVampire2;
+                monsters[3] = lowVampire1;
+            }
+            else
+            {
+                Town.TownRecall(bravers);
+                return;
+            }
+            wave3Clear = Battle.BattleStart(bravers, monsters, inventory);
+            if (wave3Clear)
+            {
+                foreach (Player player in bravers)
+                {
+                    player.GetExp(50);
+                }
+                inventory.GetMoney(2000);
+                stage1Clear = true;
+            }
+            else
+            {
+                Town.TownRecall(bravers);
+                return;
+            }
+        }
+        public void Stage3Start(Player[] bravers, Inventory inventory) 
+        {
+            bool isClear = false;
+
+            CorruptedHero corruptedHero = new CorruptedHero();
+            DeathDragon deathDragon = new DeathDragon();
+            DemonKing demonKing = new DemonKing();
+            DragonKing dragonKing = new DragonKing();
+
+            Character[] monsters = new Character[4] { demonKing, dragonKing, corruptedHero, deathDragon };
+
+            isClear = Battle.BattleStart(bravers, monsters, inventory);
+            if (isClear)
+            {
+                Program.GameClear = true;
+                UI.EndingCredit();
+            }
+            else
+            {
+                Town.TownRecall(bravers);
+            }
         }
 
         public void StageList()
@@ -128,9 +225,7 @@ namespace RPG
             Console.SetCursorPosition(30, 14);
             Console.Write("3. 마왕성 3F");
             Console.SetCursorPosition(30, 17);
-            Console.Write("4. 옥좌의 방");
-            Console.SetCursorPosition(30, 20);
-            Console.Write("5. 뒤로");
+            Console.Write("4. 뒤로");
         }
 
         public int StageSelectPointer(int selectCount)

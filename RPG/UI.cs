@@ -126,6 +126,51 @@ namespace RPG
                 Task.Delay(30).Wait();
             }
         }
+        static public void EndingCredit()
+        {
+            Console.SetCursorPosition(24, 8);
+            string str = "용사가 마왕을 쓰러트렸습니다.";
+            char[] chars = new char[50];
+            chars = str.ToCharArray();
+            foreach (char c in chars)
+            {
+                Console.Write(c);
+                Task.Delay(30).Wait();
+            }
+            Console.SetCursorPosition(24, 10);
+            str = "이제 세계는 평화를 되찾았습니다.";
+            chars = str.ToCharArray();
+            foreach (char c in chars)
+            {
+                Console.Write(c);
+                Task.Delay(30).Wait();
+            }
+            Console.SetCursorPosition(24, 12);
+            str = "용사와 동료들은 오랜시간 축복받게 되었습니다.";
+            chars = str.ToCharArray();
+            foreach (char c in chars)
+            {
+                Console.Write(c);
+                Task.Delay(30).Wait();
+            }
+            Console.SetCursorPosition(24, 14);
+            str = "그들의 이야기는 끝니 났습니다.";
+            chars = str.ToCharArray();
+            foreach (char c in chars)
+            {
+                Console.Write(c);
+                Task.Delay(30).Wait();
+            }
+            Console.SetCursorPosition(24, 16);
+            str = "플레이 해주셔서 감사합니다.";
+            chars = str.ToCharArray();
+            foreach (char c in chars)
+            {
+                Console.Write(c);
+                Task.Delay(30).Wait();
+            }
+            Task.Delay(2000).Wait();
+        }
 
         static public int SelectPointer(int selectCount)
         {
@@ -379,6 +424,8 @@ namespace RPG
                 position = "(전열)";
                 if(character.JobName == "팔라딘")
                     Console.SetCursorPosition(x - 1, target * 6);
+                /*else
+                    Console.SetCursorPosition(x, target * 6);*/
             }
             else if(character.JobName == "현자" || character.JobName == "성녀")
             {

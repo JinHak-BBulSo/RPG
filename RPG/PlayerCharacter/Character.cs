@@ -171,5 +171,21 @@ namespace RPG.PlayerCharacter
                 this.isDie = true;
             }
         }
+        public void Heal(int heal)
+        {
+            this.hp += heal;
+            if (hp > this.maxHP)
+            {
+                this.hp = maxHP;
+            }
+        }
+        public void RecoveryMP(int recovery)
+        {
+            this.mp += recovery;
+            if(mp > this.maxMP)
+            {
+                this.mp = this.maxMP;
+            }
+        }
     }
 }

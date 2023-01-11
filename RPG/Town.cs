@@ -77,20 +77,6 @@ namespace RPG
                                         continue;
                                     }
                                     break;
-                                case 4:
-                                    if (stage.Stage3Clear)
-                                    {
-                                        stage.BossStageStart(bravers, inventory);
-                                    }
-                                    else
-                                    {
-                                        UI.TextClear();
-                                        Console.SetCursorPosition(35, 27);
-                                        Console.Write("스테이지 3을 클리어하지 않아 입장 불가능합니다.");
-                                        pickNumber = 0;
-                                        continue;
-                                    }
-                                    break;
                                 default:
                                     selectActionNumber = 0;
                                     break;

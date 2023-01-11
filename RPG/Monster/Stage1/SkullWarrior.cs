@@ -12,7 +12,7 @@ namespace RPG.Monster.Stage1
         public SkullWarrior()
         {
             isMonster = true;
-            hp = 530;
+            hp = 650;
             mp = 100;
             damage = 40;
             jobName = "스켈레톤 전사";
@@ -83,7 +83,7 @@ namespace RPG.Monster.Stage1
                         hitDamage = damage - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 전사의 베기 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("스켈레톤 전사의 베기 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     if (number == 2)
                     {
@@ -91,7 +91,7 @@ namespace RPG.Monster.Stage1
                         bravers[target - 1].HitDamage(hitDamage);
                         mp -= 5;
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 전사의 연속베기 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("스켈레톤 전사의 연속베기 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     break;
                 case "SKILL":
@@ -99,7 +99,7 @@ namespace RPG.Monster.Stage1
                     bravers[target - 1].HitDamage(hitDamage);
                     mp -= 20;
                     Console.SetCursorPosition(35, 27);
-                    Console.Write("스켈레톤 전사의 파워슬래쉬 : {0}의 피해를 입혔다", hitDamage);
+                    Console.Write("스켈레톤 전사의 파워슬래쉬 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     break;
             }
             UI.HitUI(bravers[target - 1], target);

@@ -15,7 +15,7 @@ namespace RPG.PlayerCharacter
             this.maxHP = hp;
             this.mp = 450;
             this.maxMP = mp;
-            this.damage = 12;
+            this.damage = 25;
             this.jobName = "현자";
             this.def = 10;
             this.originDamage = this.damage;
@@ -120,7 +120,7 @@ namespace RPG.PlayerCharacter
         public override void LevelUP()
         {
             this.damage += 30;
-            this.maxHP += 50;
+            this.maxHP += 100;
             this.maxMP += 125;
             this.def += 10;
         }

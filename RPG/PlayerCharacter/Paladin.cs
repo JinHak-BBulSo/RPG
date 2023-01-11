@@ -21,7 +21,7 @@ namespace RPG.PlayerCharacter
             this.maxHP = hp;
             this.mp = 275;
             this.maxMP = mp;
-            this.damage = 7;
+            this.damage = 17;
             this.def = 20;
             this.originDef = this.def;
             this.originDamage = this.damage;
@@ -71,7 +71,7 @@ namespace RPG.PlayerCharacter
                         this.def = (int)(def * 1.5f);
                         Console.SetCursorPosition(26, 27);
                         Console.Write("세라픽 페더 : 자신의 방어력이 증가한다, 또한 적에게 도발을 시전한다");
-                        
+                        Task.Delay(2000).Wait();
                     }
                     else if (number == 2)
                     {
@@ -105,7 +105,10 @@ namespace RPG.PlayerCharacter
                 {
                     seraphCount--;
                     if (seraphCount == 0)
+                    {
                         def = originDef;
+                        isSeraph = false;
+                    }
                 }
             }
 
@@ -144,9 +147,10 @@ namespace RPG.PlayerCharacter
         public override void LevelUP()
         {
             this.damage += 10;
-            this.maxHP += 100;
+            this.maxHP += 220;
             this.maxMP += 75;
-            this.def += 20;
+            this.def += 30;
+            this.heal += 30;
         }
     }
 }

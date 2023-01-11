@@ -7,8 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Monster\Stage3\" />
-  </ItemGroup>
-
 </Project>

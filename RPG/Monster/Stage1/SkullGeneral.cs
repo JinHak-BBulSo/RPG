@@ -84,7 +84,7 @@ namespace RPG.Monster.Stage1
                         hitDamage = damage - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 대장군의 참격 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("스켈레톤 대장군의 참격 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     if (number == 2)
                     {
@@ -92,7 +92,7 @@ namespace RPG.Monster.Stage1
                         bravers[target - 1].HitDamage(hitDamage);
                         mp -= 5;
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 대장군의 3연격 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("스켈레톤 대장군의 3연격 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     break;
                 case "SKILL":
@@ -103,7 +103,6 @@ namespace RPG.Monster.Stage1
                             hitDamage = (int)(damage * 1.5f) - item.Def;
                             item.HitDamage(hitDamage);
                         }
-                        bravers[target - 1].HitDamage(hitDamage);
                         mp -= 50;
                         Console.SetCursorPosition(26, 27);
                         Console.Write("스켈레톤 대장군의 지옥참마도 : 전원 피해를 입혔다", hitDamage);
@@ -115,7 +114,7 @@ namespace RPG.Monster.Stage1
                         bravers[target - 1].HitDamage(hitDamage);
                         mp -= 70;
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 대장군의 심장파괴 : {0}에게 {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
+                        Console.Write("스켈레톤 대장군의 심장파괴 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     break;
             }

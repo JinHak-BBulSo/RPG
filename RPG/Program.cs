@@ -6,12 +6,13 @@ namespace RPG
 {
     internal class Program
     {
+        static public bool GameClear = false;
         static void Main(string[] args)
         {
-            bool GameClear = false;
+            
             UI.SetUI();
             Stage stage = new Stage();
-            /*UI.StartIntro();
+     /*       UI.StartIntro();
             Task.Delay(2000).Wait();*/
             UI.Clear();
             Braver braver = new Braver();

@@ -17,7 +17,7 @@ namespace RPG.PlayerCharacter
             this.mp = 450;
             this.maxMP = mp;
             this.def = 10;
-            this.damage = 3;
+            this.damage = 15;
             this.originDamage = this.damage;
             this.jobName = "성녀";
             this.actionConsumeMP = new int[2, 3]
@@ -59,7 +59,7 @@ namespace RPG.PlayerCharacter
                 case "SKILL":
                     if (number == 1)
                     {
-                        int healTarget = BuffCharacterSelect(bravers, number);
+                        int healTarget = target;
                         mp -= actionConsumeMP[1, number - 1];
                         int healAmount = this.heal * 2;
                         bravers[healTarget - 1].Heal(healAmount);
@@ -79,7 +79,7 @@ namespace RPG.PlayerCharacter
                     }
                     else
                     {
-                        int ReviveTarget = BuffCharacterSelect(bravers, number);
+                        int ReviveTarget = target;
                         bravers[ReviveTarget - 1].Revive();
                         bravers[ReviveTarget].Heal(heal * 3);
                         mp -= actionConsumeMP[1, number - 1];
@@ -97,7 +97,7 @@ namespace RPG.PlayerCharacter
             PotionBuffCheck();
         }
 
-        public int BuffCharacterSelect(Player[] bravers, int selectNumber)
+        /*public int BuffCharacterSelect(Player[] bravers, int selectNumber)
         {
             int selectCharacterNumber = 0;
             UI.ControlChaTextClear();
@@ -107,7 +107,9 @@ namespace RPG.PlayerCharacter
                 while (selectCharacterNumber == 0)
                 {
                     UI.PrintCharacterList();
-                    selectCharacterNumber = UI.SelectPointer(4);
+                    Console.SetCursorPosition(44, 20);
+                    Console.Write("5. 뒤로");
+                    selectCharacterNumber = UI.SelectPointer(5);
 
                     if (bravers[selectCharacterNumber - 1].IsDie)
                     {
@@ -116,6 +118,10 @@ namespace RPG.PlayerCharacter
                         Console.Write("{0}은 현재 전투 불능입니다.", bravers[selectCharacterNumber - 1].JobName);
                         selectCharacterNumber = 0;
                         continue;
+                    }
+                    else if(selectCharacterNumber == 5)
+                    {
+
                     }
                 }
             }
@@ -138,13 +144,14 @@ namespace RPG.PlayerCharacter
             }
 
             return selectCharacterNumber;
-        }
+        }*/
         public override void LevelUP()
         {
             this.damage += 10;
-            this.maxHP += 50;
+            this.maxHP += 120;
             this.maxMP += 150;
             this.def += 7;
+            this.heal += 40;
         }
     }
 }

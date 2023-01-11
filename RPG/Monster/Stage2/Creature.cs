@@ -9,6 +9,18 @@ namespace RPG.Monster.Stage2
 {
     internal class Creature : Character
     {
+        public Creature()
+        {
+            isIceWeak = true;
+            isMonster = true;
+            hp = 700;
+            mp = 110;
+            this.maxHP = this.hp;
+            this.maxMP = this.mp;
+            damage = 70;
+            jobName = "소환물";
+            isWindWeak = true;
+        }
         public override void ActionSelect(Player[] bravers)
         {
             UI.ControlChaTextClear();
@@ -21,7 +33,7 @@ namespace RPG.Monster.Stage2
                 Random random = new Random();
                 UI.Clear();
                 int pickNumber = 0;
-                if (mp >= 15)
+                if (mp >= 20)
                     pickNumber = random.Next(1, 2 + 1);
                 else
                     pickNumber = 1;
@@ -75,23 +87,23 @@ namespace RPG.Monster.Stage2
                         hitDamage = damage - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 궁수의 화살 공격 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("소환물의 돌진 : {0} {1}의 피해를 입혔다", bravers[target - 1].JobName, hitDamage);
                     }
                     if (number == 2)
                     {
-                        hitDamage = (int)(damage * 1.5f) - bravers[target - 1].Def;
+                        hitDamage = (int)(damage * 1.8f) - bravers[target - 1].Def;
                         bravers[target - 1].HitDamage(hitDamage);
                         mp -= 5;
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("스켈레톤 궁수의 차지샷 : {0}의 피해를 입혔다", hitDamage);
+                        Console.Write("소환물의 물어 뜯기 : {0}의 피해를 입혔다", hitDamage);
                     }
                     break;
                 case "SKILL":
-                    hitDamage = damage * 2 - bravers[target - 1].Def;
+                    hitDamage = (int)(damage * 2.3f) - bravers[target - 1].Def;
                     bravers[target - 1].HitDamage(hitDamage);
-                    mp -= 15;
+                    mp -= 20;
                     Console.SetCursorPosition(35, 27);
-                    Console.Write("스켈레톤 궁수의 트리플 에로우 : {0}의 피해를 입혔다", hitDamage);
+                    Console.Write("소환물의 브레스 : {0}의 피해를 입혔다", hitDamage);
                     break;
             }
             UI.HitUI(bravers[target - 1], target);
