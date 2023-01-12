@@ -12,7 +12,7 @@ namespace RPG
         string[,] effect = new string[20, 20];
         string[,] effect2 = new string[20, 20];
         string[,] smalleffect = new string[9, 20];
-        string[,] smalleffect2 = new string[10, 20];
+        string[,] smalleffect2 = new string[20, 2];
         string[,] smalleffect3 = new string[2, 20];
         public void Slash()
         {
@@ -246,8 +246,38 @@ namespace RPG
         public void Excalibur()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            VerticalSlash();
-            DoubleSlash();
+            UI.Clear();
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    smalleffect3[i, j] = "■";
+                }
+            }
+            int x = 43;
+            int y = 16;
+            Console.SetCursorPosition(x, 15);
+            for (int j = 0; j < 20; j++)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Console.SetCursorPosition(x, y);
+                    Console.Write(smalleffect3[i, j]);
+                }
+                Task.Delay(10).Wait();
+                x += 2;
+                y = 16;
+            }
+
+            for (int i = 0; i < 20; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    smalleffect2[i, j] = "■";
+                }
+            }
+            x = 63;
+            y = 6;
         }
         public void FinalJudgment()
         {

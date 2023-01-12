@@ -41,13 +41,13 @@ namespace RPG
                 }
                 if (monsterAllDie)
                 {
-                    Console.SetCursorPosition(35, 27);
+                    UI.TextClear();
+                    Console.SetCursorPosition(45, 27);
                     Console.WriteLine("승리했습니다!");
                     isClear = true;
+                    Task.Delay(2000).Wait();
                     return isClear;
                 }
-
-                Task.Delay(1000).Wait();
 
                 foreach (var item in monsters)
                 {
@@ -76,6 +76,7 @@ namespace RPG
                     if (!item.IsDie) item.TurnReset();
                     item.AutoMPRecovery();
                 }
+                UI.CharacterSetting(bravers);
             }
         }
 

@@ -12,7 +12,7 @@ namespace RPG
             
             UI.SetUI();
             Stage stage = new Stage();
-     /*       UI.StartIntro();
+            /*UI.StartIntro();
             Task.Delay(2000).Wait();*/
             UI.Clear();
             Braver braver = new Braver();

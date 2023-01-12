@@ -17,10 +17,10 @@ namespace RPG.PlayerCharacter
             this.isMonster = false;
             this.hp = 400;
             this.maxHP = hp;
-            this.mp = 200;
+            this.mp = 300;
             this.maxMP = mp;
             this.def = 15;
-            this.damage = 25;
+            this.damage = 100;
             this.jobName = "용사";
             this.originDamage = this.damage;
             this.actionConsumeMP = new int[2,3]

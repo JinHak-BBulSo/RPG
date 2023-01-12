@@ -360,25 +360,61 @@ namespace RPG
             Console.SetCursorPosition(102, 6);
             Console.Write("{0}", monsters[0].JobName);
             Console.SetCursorPosition(102, 8);
-            Console.Write("HP {0}  MP {1}  ", monsters[0].Hp, monsters[0].Mp);
+            if (monsters[0].Hp != 0)
+            {
+                Console.Write("HP {0}".PadRight(8), monsters[0].Hp);
+                Console.Write("MP {0}  ", monsters[0].Mp);
+            }
+            else
+            {
+                Console.Write("HP {0}".PadRight(8), monsters[0].Hp);
+                Console.Write("MP {0}     ", monsters[0].Mp);
+            }
 
             //팔라딘
             Console.SetCursorPosition(102, 12);
             Console.Write("{0}", monsters[1].JobName);
             Console.SetCursorPosition(102, 14);
-            Console.Write("HP {0}  MP {1}  ", monsters[1].Hp, monsters[1].Mp);
+            if (monsters[1].Hp != 0)
+            {
+                Console.Write("HP {0}".PadRight(8), monsters[1].Hp);
+                Console.Write("MP {0}  ", monsters[1].Mp);
+            }
+            else
+            {
+                Console.Write("HP {0}".PadRight(8), monsters[1].Hp);
+                Console.Write("MP {0}     ", monsters[1].Mp);
+            }
 
             //현자
             Console.SetCursorPosition(102, 18);
             Console.Write("{0}", monsters[2].JobName);
             Console.SetCursorPosition(102, 20);
-            Console.Write("HP {0}  MP {1}  ", monsters[2].Hp, monsters[2].Mp);
+            if (monsters[2].Hp != 0)
+            {
+                Console.Write("HP {0}".PadRight(8), monsters[2].Hp);
+                Console.Write("MP {0}  ", monsters[2].Mp);
+            }
+            else
+            {
+                Console.Write("HP {0}".PadRight(8), monsters[2].Hp);
+                Console.Write("MP {0}     ", monsters[2].Mp);
+            }
 
             //성녀
             Console.SetCursorPosition(102, 24);
             Console.Write("{0}", monsters[3].JobName);
             Console.SetCursorPosition(102, 26);
-            Console.Write("HP {0}  MP {1}  ", monsters[3].Hp, monsters[3].Mp);
+            if (monsters[3].Hp != 0)
+            {
+                Console.Write("HP {0}".PadRight(8), monsters[3].Hp);
+                Console.Write("MP {0}  ", monsters[3].Mp);
+            }
+            else
+            {
+                Console.Write("HP {0}".PadRight(8), monsters[3].Hp);
+                Console.Write("MP {0}     ", monsters[3].Mp);
+            }
         }
         static public void PrintCharacterList()
         {
@@ -441,6 +477,32 @@ namespace RPG
             Console.Write("{0}{1}", character.JobName, position);
             Console.SetCursorPosition(x - 4, target * 6 + 2);
             Console.Write(" HP {0}  MP {1}  ", character.Hp, character.Mp);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        static public void HealUI(Character bravers, int target)
+        {
+            int x;
+            string position = "";
+            x = 6;
+
+            if (bravers.JobName == "팔라딘" || bravers.JobName == "용사")
+            {
+                position = "(전열)";
+                if (bravers.JobName == "팔라딘")
+                    Console.SetCursorPosition(x - 1, target * 6);
+                else
+                    Console.SetCursorPosition(x, target * 6);
+            }
+            else if (bravers.JobName == "현자" || bravers.JobName == "성녀")
+            {
+                position = "(후열)";
+                Console.SetCursorPosition(x, target * 6);
+            }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("{0}{1}", bravers.JobName, position);
+            Console.SetCursorPosition(x - 4, target * 6 + 2);
+            Console.Write(" HP {0}  MP {1}  ", bravers.Hp, bravers.Mp);
             Console.ForegroundColor = ConsoleColor.White;
         }
     }

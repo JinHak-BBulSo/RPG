@@ -21,6 +21,8 @@ namespace RPG
         }
         static public void TownStart(Inventory inventory, Stage stage, Player[] bravers)
         {
+            UI.TextClear();
+            UI.ControlChaTextClear();
             int selectActionNumber = 0;
             int pickNumber = 0;
 
@@ -42,7 +44,7 @@ namespace RPG
                             stage.StageList();
                             stage.PrintCastle();
                            
-                            pickNumber = stage.StageSelectPointer(5);
+                            pickNumber = stage.StageSelectPointer(4);
                             switch (pickNumber)
                             {
                                 case 1:
@@ -81,7 +83,7 @@ namespace RPG
                                     selectActionNumber = 0;
                                     break;
                             }
-                            if (pickNumber == 5)
+                            if (pickNumber == 4)
                             {
                                 pickNumber = 0;
                                 break;

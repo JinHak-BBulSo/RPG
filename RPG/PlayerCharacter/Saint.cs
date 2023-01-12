@@ -17,7 +17,7 @@ namespace RPG.PlayerCharacter
             this.mp = 450;
             this.maxMP = mp;
             this.def = 10;
-            this.damage = 15;
+            this.damage = 50;
             this.originDamage = this.damage;
             this.jobName = "성녀";
             this.actionConsumeMP = new int[2, 3]
@@ -65,6 +65,8 @@ namespace RPG.PlayerCharacter
                         bravers[healTarget - 1].Heal(healAmount);
                         Console.SetCursorPosition(35, 27);
                         Console.Write("힐 : {0}의 체력을 {1} 회복했다", bravers[healTarget - 1].JobName, healAmount);
+                        UI.HealUI(bravers[target - 1], target);
+                        Task.Delay(1000).Wait();
                     }
                     else if (number == 2)
                     {
@@ -76,6 +78,10 @@ namespace RPG.PlayerCharacter
                         mp -= actionConsumeMP[1, number - 1];
                         Console.SetCursorPosition(35, 27);
                         Console.Write("미라클 샤인 : 파티원 전체의 체력을 {0} 회복", healAmount);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        UI.CharacterSetting(bravers);
+                        Task.Delay(2000).Wait();
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     else
                     {
@@ -84,7 +90,9 @@ namespace RPG.PlayerCharacter
                         bravers[ReviveTarget].Heal(heal * 3);
                         mp -= actionConsumeMP[1, number - 1];
                         Console.SetCursorPosition(35, 27);
-                        Console.Write("리저렉션 : 대상을 부활시킨다", hitDamage);
+                        Console.Write("리저렉션 : 대상을 부활시킨다");
+                        UI.HealUI(bravers[target - 1], target);
+                        Task.Delay(2000).Wait();
                     }
                     break;
             }

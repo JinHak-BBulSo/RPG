@@ -15,7 +15,7 @@ namespace RPG.PlayerCharacter
             this.maxHP = hp;
             this.mp = 450;
             this.maxMP = mp;
-            this.damage = 25;
+            this.damage = 120;
             this.jobName = "현자";
             this.def = 10;
             this.originDamage = this.damage;

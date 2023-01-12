@@ -21,7 +21,7 @@ namespace RPG.PlayerCharacter
             this.maxHP = hp;
             this.mp = 275;
             this.maxMP = mp;
-            this.damage = 17;
+            this.damage = 70;
             this.def = 20;
             this.originDef = this.def;
             this.originDamage = this.damage;
@@ -84,6 +84,10 @@ namespace RPG.PlayerCharacter
                             item.Heal(this.heal * 3);
                             item.DefUp((int)(this.originDef / 2));
                         }
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        UI.CharacterSetting(bravers);
+                        Task.Delay(2000).Wait();
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     else
                     {

@@ -56,9 +56,10 @@ namespace RPG
                 foreach(Player player in bravers)
                 {
                     player.GetExp(25);
+                    if (!player.IsDie) player.TurnReset();
                 }
                 inventory.GetMoney(1000);
-                
+
                 skullArchor = new SkullArchor();
                 skullWarrior = new SkullWarrior();
                 monsters[0] = skullKnight;
@@ -71,6 +72,8 @@ namespace RPG
                 Town.TownRecall(bravers);
                 return;
             }
+            UI.CharacterSetting(bravers);
+            UI.MonsterSetting(monsters);
             wave2Clear = Battle.BattleStart(bravers, monsters, inventory);
             if (wave2Clear)
             {
@@ -78,6 +81,7 @@ namespace RPG
                 {
                     if (player.IsDie) continue; // 사망시 경험치 획득 불가
                     player.GetExp(25);
+                    if (!player.IsDie) player.TurnReset();
                 }
                 inventory.GetMoney(1000);
                 
@@ -94,12 +98,15 @@ namespace RPG
                 Town.TownRecall(bravers);
                 return;
             }
+            UI.CharacterSetting(bravers);
+            UI.MonsterSetting(monsters);
             wave3Clear = Battle.BattleStart(bravers, monsters, inventory);
             if (wave3Clear)
             {
                 foreach (Player player in bravers)
                 {
                     player.GetExp(50);
+                    if (!player.IsDie) player.TurnReset();
                 }
                 inventory.GetMoney(2000);
                 stage1Clear = true;
@@ -136,6 +143,7 @@ namespace RPG
                 foreach (Player player in bravers)
                 {
                     player.GetExp(25); // 사망시 경험치 획득 불가
+                    if (!player.IsDie) player.TurnReset();
                 }
                 inventory.GetMoney(1000);
                 
@@ -160,6 +168,7 @@ namespace RPG
                 {
                     if (player.IsDie) continue; 
                     player.GetExp(25);
+                    if (!player.IsDie) player.TurnReset();
                 }
                 inventory.GetMoney(1000);
                 highVampire1 = new HighVampire();
@@ -182,6 +191,7 @@ namespace RPG
                 foreach (Player player in bravers)
                 {
                     player.GetExp(50);
+                    if (!player.IsDie) player.TurnReset();
                 }
                 inventory.GetMoney(2000);
                 stage1Clear = true;
