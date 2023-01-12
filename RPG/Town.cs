@@ -13,11 +13,11 @@ namespace RPG
         {
             foreach(Player player in bravers)
             {
-                player.Recall();
-                Console.SetCursorPosition(35, 27);
-                Console.Write("전멸로 인해 마을로 복귀합니다.");
-                Task.Delay(2000).Wait();
+                player.Recall();          
             }
+            Console.SetCursorPosition(35, 27);
+            Console.Write("전멸로 인해 마을로 복귀합니다.");
+            Task.Delay(1000).Wait();
         }
         static public void TownStart(Inventory inventory, Stage stage, Player[] bravers)
         {

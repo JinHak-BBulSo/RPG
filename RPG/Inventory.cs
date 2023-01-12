@@ -112,15 +112,23 @@ namespace RPG
             {
                 case 1:
                     bravers[useCharacterNumber - 1].Heal(100);
+                    UI.HealUI(bravers[useCharacterNumber - 1], useCharacterNumber);
+                    Task.Delay(1000).Wait();
                     break;
                 case 2:
                     bravers[useCharacterNumber - 1].MPPotion(0);
+                    UI.HealUI(bravers[useCharacterNumber - 1], useCharacterNumber);
+                    Task.Delay(1000).Wait();
                     break;
                 case 3:
                     bravers[useCharacterNumber - 1].Heal(230);
+                    UI.HealUI(bravers[useCharacterNumber - 1], useCharacterNumber);
+                    Task.Delay(1000).Wait();
                     break;
                 case 4:
                     bravers[useCharacterNumber - 1].MPPotion(1);
+                    UI.HealUI(bravers[useCharacterNumber - 1], useCharacterNumber);
+                    Task.Delay(1000).Wait();
                     break;
                 case 5:
                     bravers[useCharacterNumber - 1].DamageUpPotion(0);

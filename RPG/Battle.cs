@@ -31,7 +31,12 @@ namespace RPG
                 { 
                     int selectCharacterNumber = CharacterSelect(bravers);
                     bravers[selectCharacterNumber - 1].ActionSelect(bravers, monsters, selectCharacterNumber, inventory);
-                    if (bravers[selectCharacterNumber - 1].IsAvoid) return false;
+                    if (bravers[selectCharacterNumber - 1].IsAvoid)
+                    {
+                        playerTurnFinish = true;
+                        Town.TownRecall(bravers);
+                        return false;
+                    }
                     UI.CharacterSetting(bravers);
                     UI.MonsterSetting(monsters);
                     monsterAllDie = (monsters[0].IsDie && monsters[1].IsDie && monsters[2].IsDie && monsters[3].IsDie);
