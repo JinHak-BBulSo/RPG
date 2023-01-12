@@ -119,6 +119,7 @@ namespace RPG.PlayerCharacter
                 monsters[target - 1].HitDamage(hitDamage);
                 Task.Delay(1000).Wait();
             }
+            else Task.Delay(2000).Wait();
             PotionBuffCheck();
         }
         public override void Recall()
